@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Watchlist — Popcorn Pardner</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js"></script>
+</head>
+
+<body>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Popcorn Pardner</a>
+      <nav>
+        <a href="search.html">Search</a>
+        <a href="watchlist.html" class="nav-active">Watchlist</a>
+        <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Switch to light mode">☀ Light</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== WATCHLIST ===== -->
+  <section class="search-page">
+    <div class="container">
+      <h1 class="page-title">My Watchlist</h1>
+      <div id="watchlist-container"></div>
+    </div>
+  </section>
+
+  <!-- ===== LOG MOVIE MODAL ===== -->
+  <div class="modal-overlay" id="log-modal" hidden role="dialog" aria-modal="true" aria-labelledby="log-modal-title">
+    <div class="modal">
+      <button class="modal-close" id="log-modal-close" aria-label="Close">&times;</button>
+
+      <div class="modal-movie">
+        <div class="modal-poster">
+          <img id="log-modal-poster-img" src="" alt="" hidden />
+          <div class="poster-placeholder" id="log-modal-poster-placeholder" hidden>No Image</div>
+        </div>
+        <div class="modal-movie-info">
+          <h2 class="modal-movie-title" id="log-modal-title"></h2>
+          <p class="modal-movie-overview" id="log-modal-overview"></p>
+        </div>
+      </div>
+
+      <div class="modal-form">
+        <div class="form-group">
+          <p class="form-label">Your Rating</p>
+          <div class="hat-rating" id="log-hat-rating" role="group" aria-label="Rating out of 5 hats">
+            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
+            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats">🤠</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="log-review-text">Your Review</label>
+          <textarea class="review-textarea" id="log-review-text" placeholder="What did you think of this film, pardner?" rows="4"></textarea>
+        </div>
+
+        <p class="form-error" id="log-form-error" hidden></p>
+
+        <div class="modal-actions-right">
+          <button class="btn btn-ghost" id="log-modal-cancel">Cancel</button>
+          <button class="btn btn-primary" id="log-modal-save">Log Movie</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>Popcorn Pardner &mdash; A movie review app</span>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="storage.js"></script>
+  <script src="watchlist.js"></script>
+</body>
+
+</html>

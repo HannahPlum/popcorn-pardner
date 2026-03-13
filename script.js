@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== MY REVIEWS SECTION =====
 
 function renderMyReviews() {
-  const reviews = getReviews().slice(0, 6);
+  const reviews = getReviews().slice(0, 5);
 
   const section = document.getElementById('my-reviews');
   if (!section) return;
@@ -224,7 +224,7 @@ function renderCurrentlyWatching() {
 // ===== WATCHLIST SECTION =====
 
 function renderWatchlist() {
-  const watchlist = getWatchlist();
+  const watchlist = getWatchlist().slice(0, 5);
   const section = document.getElementById('watchlist');
   if (!section) return;
 

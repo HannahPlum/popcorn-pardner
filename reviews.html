@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search — Popcorn Pardner</title>
+  <title>My Reviews — Popcorn Pardner</title>
   <link rel="stylesheet" href="style.css" />
   <script src="theme.js"></script>
 </head>
@@ -16,54 +16,41 @@
     <div class="container header-inner">
       <a href="index.html" class="logo">Popcorn Pardner</a>
       <nav>
-        <a href="search.html" class="nav-active">Search</a>
+        <a href="search.html">Search</a>
         <a href="watchlist.html">Watchlist</a>
         <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Switch to light mode">☀ Light</button>
       </nav>
     </div>
   </header>
 
-  <!-- ===== SEARCH ===== -->
+  <!-- ===== REVIEWS ===== -->
   <section class="search-page">
     <div class="container">
-      <h1 class="page-title">Search Movies</h1>
-
-      <form class="search-form" id="search-form">
-        <label for="search-input" class="visually-hidden">Search for a movie</label>
-        <input
-          type="text"
-          class="search-input"
-          id="search-input"
-          placeholder="Search for a movie..."
-          autocomplete="off"
-        />
-        <button type="submit" class="btn btn-primary">Search</button>
-      </form>
-
-      <div id="search-results"></div>
+      <h1 class="page-title">My Reviews</h1>
+      <div id="reviews-container"></div>
     </div>
   </section>
 
-  <!-- ===== REVIEW MODAL ===== -->
-  <div class="modal-overlay" id="review-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-movie-title">
+  <!-- ===== EDIT REVIEW MODAL ===== -->
+  <div class="modal-overlay" id="edit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
     <div class="modal">
-      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <button class="modal-close" id="edit-modal-close" aria-label="Close">&times;</button>
 
       <div class="modal-movie">
-        <div class="modal-poster" id="modal-poster-wrap">
-          <img id="modal-poster-img" src="" alt="" hidden />
-          <div class="poster-placeholder" id="modal-poster-placeholder" hidden>No Image</div>
+        <div class="modal-poster">
+          <img id="edit-modal-poster-img" src="" alt="" hidden />
+          <div class="poster-placeholder" id="edit-modal-poster-placeholder" hidden>No Image</div>
         </div>
         <div class="modal-movie-info">
-          <h2 class="modal-movie-title" id="modal-movie-title"></h2>
-          <p class="modal-movie-overview" id="modal-movie-overview"></p>
+          <h2 class="modal-movie-title" id="edit-modal-title"></h2>
+          <p class="modal-movie-overview" id="edit-modal-overview"></p>
         </div>
       </div>
 
       <div class="modal-form">
         <div class="form-group">
           <p class="form-label">Your Rating</p>
-          <div class="hat-rating" id="hat-rating" role="group" aria-label="Rating out of 5 hats">
+          <div class="hat-rating" id="edit-hat-rating" role="group" aria-label="Rating out of 5 hats">
             <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
             <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
             <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
@@ -73,20 +60,18 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="review-text">Your Review</label>
-          <textarea
-            class="review-textarea"
-            id="review-text"
-            placeholder="What did you think of this film, pardner?"
-            rows="4"
-          ></textarea>
+          <label class="form-label" for="edit-review-text">Your Review</label>
+          <textarea class="review-textarea" id="edit-review-text" placeholder="What did you think of this film, pardner?" rows="4"></textarea>
         </div>
 
-        <p class="form-error" id="form-error" hidden></p>
+        <p class="form-error" id="edit-form-error" hidden></p>
 
-        <div class="modal-actions-right">
-          <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
-          <button class="btn btn-primary" id="modal-save">Log Movie</button>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="edit-modal-delete">Delete</button>
+          <div class="modal-actions-right">
+            <button class="btn btn-ghost" id="edit-modal-cancel">Cancel</button>
+            <button class="btn btn-primary" id="edit-modal-save">Update Review</button>
+          </div>
         </div>
       </div>
     </div>
@@ -101,7 +86,7 @@
 
   <script src="config.js"></script>
   <script src="storage.js"></script>
-  <script src="search.js"></script>
+  <script src="reviews.js"></script>
 </body>
 
 </html>
