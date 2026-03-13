@@ -2,7 +2,8 @@
 // Shared localStorage helpers used across all pages.
 
 const STORAGE_KEYS = {
-  REVIEWS: 'popcornPardnerReviews'
+  REVIEWS: 'popcornPardnerReviews',
+  WATCHLIST: 'popcornPardnerWatchlist'
 };
 
 function getReviews() {
@@ -43,4 +44,26 @@ function updateReview(id, changes) {
 function deleteReview(id) {
   const reviews = getReviews().filter(r => r.id !== id);
   localStorage.setItem(STORAGE_KEYS.REVIEWS, JSON.stringify(reviews));
+}
+
+// ===== WATCHLIST =====
+
+function getWatchlist() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.WATCHLIST) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function addToWatchlist(movieData) {
+  const watchlist = getWatchlist();
+  if (watchlist.some(item => item.tmdbId === movieData.tmdbId)) return;
+  watchlist.unshift({ ...movieData, addedAt: new Date().toISOString() });
+  localStorage.setItem(STORAGE_KEYS.WATCHLIST, JSON.stringify(watchlist));
+}
+
+function removeFromWatchlist(tmdbId) {
+  const watchlist = getWatchlist().filter(item => item.tmdbId !== tmdbId);
+  localStorage.setItem(STORAGE_KEYS.WATCHLIST, JSON.stringify(watchlist));
 }

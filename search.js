@@ -95,12 +95,43 @@ function buildMovieCard(movie) {
   overview.className = 'movie-overview';
   overview.textContent = movie.overview || 'No description available.';
 
+  const cardActions = document.createElement('div');
+  cardActions.className = 'card-actions';
+
+  const watchlistBtn = document.createElement('button');
+  watchlistBtn.type = 'button';
+  watchlistBtn.className = 'watchlist-btn';
+  setWatchlistBtnState(watchlistBtn, getWatchlist().some(item => item.tmdbId === movie.id));
+
+  watchlistBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const onWatchlist = getWatchlist().some(item => item.tmdbId === movie.id);
+    if (onWatchlist) {
+      removeFromWatchlist(movie.id);
+    } else {
+      addToWatchlist({
+        tmdbId: movie.id,
+        title: movie.title,
+        posterPath: movie.poster_path || null,
+        overview: movie.overview || ''
+      });
+    }
+    setWatchlistBtnState(watchlistBtn, !onWatchlist);
+  });
+
+  cardActions.appendChild(watchlistBtn);
   infoDiv.appendChild(title);
   infoDiv.appendChild(overview);
+  infoDiv.appendChild(cardActions);
   card.appendChild(posterDiv);
   card.appendChild(infoDiv);
 
   return card;
+}
+
+function setWatchlistBtnState(btn, isOnWatchlist) {
+  btn.textContent = isOnWatchlist ? '✓ Watchlisted' : '+ Watchlist';
+  btn.classList.toggle('watchlist-btn--active', isOnWatchlist);
 }
 
 function setStatus(message) {

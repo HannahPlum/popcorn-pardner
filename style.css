@@ -333,6 +333,8 @@ nav a.nav-active {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: border-color var(--transition), transform var(--transition),
               box-shadow var(--transition);
 }
@@ -367,6 +369,9 @@ nav a.nav-active {
 
 .movie-info {
   padding: 0.85rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .movie-title {
@@ -580,6 +585,36 @@ nav a.nav-active {
   font-size: 0.72rem;
   color: var(--muted);
   margin-bottom: 0.4rem;
+}
+
+/* ===== CARD ACTIONS ===== */
+.card-actions {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+.watchlist-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition);
+}
+
+.watchlist-btn:hover {
+  color: var(--amber);
+}
+
+.watchlist-btn--active {
+  color: var(--amber);
+}
+
+.watchlist-btn--remove:hover {
+  color: #e05a5a;
 }
 
 /* ===== RESPONSIVE ===== */
