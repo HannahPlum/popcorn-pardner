@@ -42,6 +42,54 @@
     </div>
   </section>
 
+  <!-- ===== REVIEW MODAL ===== -->
+  <div class="modal-overlay" id="review-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-movie-title">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+
+      <div class="modal-movie">
+        <div class="modal-poster" id="modal-poster-wrap">
+          <img id="modal-poster-img" src="" alt="" hidden />
+          <div class="poster-placeholder" id="modal-poster-placeholder" hidden>No Image</div>
+        </div>
+        <div class="modal-movie-info">
+          <h2 class="modal-movie-title" id="modal-movie-title"></h2>
+          <p class="modal-movie-overview" id="modal-movie-overview"></p>
+        </div>
+      </div>
+
+      <div class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Your Rating</label>
+          <div class="hat-rating" id="hat-rating" role="group" aria-label="Rating out of 5 hats">
+            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
+            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats">🤠</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="review-text">Your Review</label>
+          <textarea
+            class="review-textarea"
+            id="review-text"
+            placeholder="What did you think of this film, pardner?"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <p class="form-error" id="form-error" hidden></p>
+
+        <div class="modal-actions-right">
+          <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+          <button class="btn btn-primary" id="modal-save">Log Movie</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -50,6 +98,7 @@
   </footer>
 
   <script src="config.js"></script>
+  <script src="storage.js"></script>
   <script src="search.js"></script>
 </body>
 

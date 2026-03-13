@@ -49,15 +49,15 @@
     </div>
   </section>
 
-  <!-- ===== RECENTLY WATCHED ===== -->
-  <section class="home-section home-section--alt" id="recently-watched">
+  <!-- ===== MY REVIEWS ===== -->
+  <section class="home-section home-section--alt" id="my-reviews">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Recently Watched</h2>
+        <h2 class="section-title">My Reviews</h2>
         <a href="#" class="section-link">View all</a>
       </div>
       <div class="empty-state">
-        <p>No movies logged yet. Search for a film and leave your first review.</p>
+        <p>No reviews yet. Search for a film and log your first watch.</p>
         <a href="search.html" class="btn btn-outline">Log a Movie</a>
       </div>
     </div>
@@ -77,6 +77,52 @@
     </div>
   </section>
 
+  <!-- ===== EDIT REVIEW MODAL ===== -->
+  <div class="modal-overlay" id="edit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+    <div class="modal">
+      <button class="modal-close" id="edit-modal-close" aria-label="Close">&times;</button>
+
+      <div class="modal-movie">
+        <div class="modal-poster">
+          <img id="edit-modal-poster-img" src="" alt="" hidden />
+          <div class="poster-placeholder" id="edit-modal-poster-placeholder" hidden>No Image</div>
+        </div>
+        <div class="modal-movie-info">
+          <h2 class="modal-movie-title" id="edit-modal-title"></h2>
+          <p class="modal-movie-overview" id="edit-modal-overview"></p>
+        </div>
+      </div>
+
+      <div class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Your Rating</label>
+          <div class="hat-rating" id="edit-hat-rating" role="group" aria-label="Rating out of 5 hats">
+            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
+            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats">🤠</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-review-text">Your Review</label>
+          <textarea class="review-textarea" id="edit-review-text" placeholder="What did you think of this film, pardner?" rows="4"></textarea>
+        </div>
+
+        <p class="form-error" id="edit-form-error" hidden></p>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="edit-modal-delete">Delete</button>
+          <div class="modal-actions-right">
+            <button class="btn btn-ghost" id="edit-modal-cancel">Cancel</button>
+            <button class="btn btn-primary" id="edit-modal-save">Update Review</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -85,6 +131,7 @@
   </footer>
 
   <script src="config.js"></script>
+  <script src="storage.js"></script>
   <script src="script.js"></script>
 </body>
 
