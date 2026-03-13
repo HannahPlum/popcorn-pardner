@@ -3,7 +3,8 @@
 
 const STORAGE_KEYS = {
   REVIEWS: 'popcornPardnerReviews',
-  WATCHLIST: 'popcornPardnerWatchlist'
+  WATCHLIST: 'popcornPardnerWatchlist',
+  CURRENTLY_WATCHING: 'popcornPardnerCurrentlyWatching'
 };
 
 function getReviews() {
@@ -66,4 +67,25 @@ function addToWatchlist(movieData) {
 function removeFromWatchlist(tmdbId) {
   const watchlist = getWatchlist().filter(item => item.tmdbId !== tmdbId);
   localStorage.setItem(STORAGE_KEYS.WATCHLIST, JSON.stringify(watchlist));
+}
+
+// ===== CURRENTLY WATCHING =====
+
+function getCurrentlyWatching() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENTLY_WATCHING) || 'null');
+  } catch {
+    return null;
+  }
+}
+
+function setCurrentlyWatching(movieData) {
+  localStorage.setItem(STORAGE_KEYS.CURRENTLY_WATCHING, JSON.stringify({
+    ...movieData,
+    startedAt: new Date().toISOString()
+  }));
+}
+
+function clearCurrentlyWatching() {
+  localStorage.removeItem(STORAGE_KEYS.CURRENTLY_WATCHING);
 }

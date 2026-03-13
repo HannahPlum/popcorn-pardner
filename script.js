@@ -3,6 +3,7 @@
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
 document.addEventListener('DOMContentLoaded', () => {
+  renderCurrentlyWatching();
   renderMyReviews();
   renderWatchlist();
 });
@@ -121,6 +122,105 @@ function buildReviewCard(review) {
   return card;
 }
 
+// ===== CURRENTLY WATCHING SECTION =====
+
+function renderCurrentlyWatching() {
+  const current = getCurrentlyWatching();
+  const section = document.getElementById('currently-watching');
+  if (!section) return;
+
+  const container = section.querySelector('.container');
+  const emptyState = container.querySelector('.empty-state');
+  const existingCard = container.querySelector('.currently-watching-card');
+
+  if (!current) {
+    if (existingCard) existingCard.remove();
+    if (!emptyState) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      const p = document.createElement('p');
+      p.textContent = "You haven't marked anything as currently watching.";
+      const a = document.createElement('a');
+      a.href = 'search.html';
+      a.className = 'btn btn-outline';
+      a.textContent = 'Find a Movie';
+      empty.appendChild(p);
+      empty.appendChild(a);
+      container.appendChild(empty);
+    }
+    return;
+  }
+
+  if (emptyState) emptyState.remove();
+  if (existingCard) existingCard.remove();
+
+  const card = document.createElement('div');
+  card.className = 'currently-watching-card';
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.card-actions')) return;
+    openLogModal(current, 'currently-watching');
+  });
+
+  const posterDiv = document.createElement('div');
+  posterDiv.className = 'cw-poster';
+
+  if (current.posterPath) {
+    const img = document.createElement('img');
+    img.src = `${TMDB_IMAGE_BASE}${current.posterPath}`;
+    img.alt = `${current.title} poster`;
+    img.loading = 'lazy';
+    posterDiv.appendChild(img);
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'poster-placeholder';
+    placeholder.textContent = 'No Image';
+    posterDiv.appendChild(placeholder);
+  }
+
+  const infoDiv = document.createElement('div');
+  infoDiv.className = 'cw-info';
+
+  const title = document.createElement('h3');
+  title.className = 'cw-title';
+  title.textContent = current.title;
+
+  const overview = document.createElement('p');
+  overview.className = 'cw-overview';
+  overview.textContent = current.overview || 'No description available.';
+
+  const actions = document.createElement('div');
+  actions.className = 'card-actions cw-actions';
+
+  const logBtn = document.createElement('button');
+  logBtn.type = 'button';
+  logBtn.className = 'watchlist-btn watchlist-btn--active';
+  logBtn.textContent = '✎ Log Review';
+  logBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openLogModal(current, 'currently-watching');
+  });
+
+  const clearBtn = document.createElement('button');
+  clearBtn.type = 'button';
+  clearBtn.className = 'watchlist-btn watchlist-btn--remove';
+  clearBtn.textContent = '✕ Clear';
+  clearBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    clearCurrentlyWatching();
+    renderCurrentlyWatching();
+  });
+
+  actions.appendChild(logBtn);
+  actions.appendChild(clearBtn);
+  infoDiv.appendChild(title);
+  infoDiv.appendChild(overview);
+  infoDiv.appendChild(actions);
+  card.appendChild(posterDiv);
+  card.appendChild(infoDiv);
+  container.appendChild(card);
+}
+
 // ===== WATCHLIST SECTION =====
 
 function renderWatchlist() {
@@ -202,7 +302,7 @@ function buildWatchlistCard(item) {
 
   card.style.cursor = 'pointer';
   card.addEventListener('click', (e) => {
-    if (e.target === removeBtn) return;
+    if (e.target.closest('.card-actions')) return;
     openLogModal(item);
   });
 
@@ -376,8 +476,8 @@ function highlightLogHats(count) {
   });
 }
 
-function openLogModal(item) {
-  logMovie = item;
+function openLogModal(item, source = 'watchlist') {
+  logMovie = { ...item, _source: source };
   logSelectedRating = 0;
 
   document.getElementById('log-modal-title').textContent = item.title;
@@ -431,10 +531,20 @@ function saveFromLogModal() {
     reviewText: logReviewTextarea.value.trim()
   });
 
-  removeFromWatchlist(logMovie.tmdbId);
+  if (logMovie._source === 'currently-watching') {
+    clearCurrentlyWatching();
+  } else {
+    removeFromWatchlist(logMovie.tmdbId);
+  }
+
   closeLogModal();
   renderMyReviews();
-  renderWatchlist();
+
+  if (logMovie._source === 'currently-watching') {
+    renderCurrentlyWatching();
+  } else {
+    renderWatchlist();
+  }
 }
 
 function showLogError(message) {

@@ -588,10 +588,74 @@ nav a.nav-active {
 }
 
 /* ===== CARD ACTIONS ===== */
+/* ===== CURRENTLY WATCHING CARD ===== */
+.currently-watching-card {
+  display: flex;
+  gap: 1.25rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--amber);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  max-width: 520px;
+  box-shadow: 0 4px 20px rgba(200, 134, 10, 0.1);
+}
+
+.cw-poster {
+  width: 90px;
+  flex-shrink: 0;
+  aspect-ratio: 2 / 3;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--dark);
+}
+
+.cw-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cw-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.cw-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 0.4rem;
+}
+
+.cw-overview {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.cw-actions {
+  margin-top: auto;
+  flex-direction: row;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.6rem;
+}
+
+/* ===== CARD ACTIONS ===== */
 .card-actions {
   margin-top: auto;
   padding-top: 0.6rem;
   border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .watchlist-btn {
@@ -615,6 +679,72 @@ nav a.nav-active {
 
 .watchlist-btn--remove:hover {
   color: #e05a5a;
+}
+
+.watching-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition);
+}
+
+.watching-btn:hover {
+  color: var(--amber);
+}
+
+.watching-btn--active {
+  color: var(--amber);
+}
+
+/* ===== THEME TOGGLE BUTTON ===== */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--text-on-dark);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition);
+}
+
+.theme-toggle-btn:hover {
+  color: var(--amber);
+}
+
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ===== LIGHT MODE ===== */
+:root[data-theme="light"] {
+  --dark:        #FDF6E3;
+  --card-bg:     #FFFDF5;
+  --border:      #E2C97E;
+  --cream:       #1C0F07;
+  --muted:       #7A5C30;
+  --text-on-dark: #3D2212;
+  --amber:       #8B5E00;  /* darkened for 5.26:1 contrast on light bg (AA pass) */
+  --amber-light: #7A5200;  /* darkened for 6.42:1 contrast on light bg (AA pass) */
+}
+
+[data-theme="light"] .site-header {
+  background-color: rgba(253, 246, 227, 0.92);
+}
+
+[data-theme="light"] .hero {
+  background: radial-gradient(ellipse at 60% 0%, #EDD8A0 0%, #FDF6E3 65%);
+}
+
+[data-theme="light"] .home-section--alt {
+  background-color: #F5EDD0;
 }
 
 /* ===== RESPONSIVE ===== */

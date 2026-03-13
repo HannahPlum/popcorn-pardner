@@ -119,7 +119,25 @@ function buildMovieCard(movie) {
     setWatchlistBtnState(watchlistBtn, !onWatchlist);
   });
 
+  const watchingBtn = document.createElement('button');
+  watchingBtn.type = 'button';
+  watchingBtn.className = 'watching-btn';
+  setWatchingBtnState(watchingBtn, getCurrentlyWatching()?.tmdbId === movie.id);
+
+  watchingBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('.watching-btn').forEach(btn => setWatchingBtnState(btn, false));
+    setCurrentlyWatching({
+      tmdbId: movie.id,
+      title: movie.title,
+      posterPath: movie.poster_path || null,
+      overview: movie.overview || ''
+    });
+    setWatchingBtnState(watchingBtn, true);
+  });
+
   cardActions.appendChild(watchlistBtn);
+  cardActions.appendChild(watchingBtn);
   infoDiv.appendChild(title);
   infoDiv.appendChild(overview);
   infoDiv.appendChild(cardActions);
@@ -132,6 +150,11 @@ function buildMovieCard(movie) {
 function setWatchlistBtnState(btn, isOnWatchlist) {
   btn.textContent = isOnWatchlist ? '✓ Watchlisted' : '+ Watchlist';
   btn.classList.toggle('watchlist-btn--active', isOnWatchlist);
+}
+
+function setWatchingBtnState(btn, isWatching) {
+  btn.textContent = isWatching ? '▶ Watching' : '▶ Watch Now';
+  btn.classList.toggle('watching-btn--active', isWatching);
 }
 
 function setStatus(message) {
