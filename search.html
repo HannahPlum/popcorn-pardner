@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search — Popcorn Pardner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Popcorn Pardner</a>
+      <nav>
+        <a href="search.html" class="nav-active">Search</a>
+        <a href="index.html#watchlist">Watchlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== SEARCH ===== -->
+  <section class="search-page">
+    <div class="container">
+      <h1 class="page-title">Search Movies</h1>
+
+      <form class="search-form" id="search-form">
+        <label for="search-input" class="visually-hidden">Search for a movie</label>
+        <input
+          type="text"
+          class="search-input"
+          id="search-input"
+          placeholder="Search for a movie..."
+          autocomplete="off"
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+
+      <div id="search-results"></div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>Popcorn Pardner &mdash; A movie review app</span>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="search.js"></script>
+</body>
+
+</html>
