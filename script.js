@@ -531,7 +531,9 @@ function saveFromLogModal() {
     reviewText: logReviewTextarea.value.trim()
   });
 
-  if (logMovie._source === 'currently-watching') {
+  const source = logMovie._source;
+
+  if (source === 'currently-watching') {
     clearCurrentlyWatching();
   } else {
     removeFromWatchlist(logMovie.tmdbId);
@@ -540,7 +542,7 @@ function saveFromLogModal() {
   closeLogModal();
   renderMyReviews();
 
-  if (logMovie._source === 'currently-watching') {
+  if (source === 'currently-watching') {
     renderCurrentlyWatching();
   } else {
     renderWatchlist();
