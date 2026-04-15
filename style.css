@@ -747,6 +747,54 @@ nav a.nav-active {
   background-color: #F5EDD0;
 }
 
+/* ===== STREAMING MODAL ===== */
+.streaming-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 1rem;
+  padding-right: 2rem;
+}
+
+.streaming-loading {
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding-block: 0.5rem;
+  text-align: center;
+}
+
+.streaming-message {
+  color: var(--text-on-dark);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.streaming-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.source-pill {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background-color: var(--dark);
+  border: 1px solid var(--amber);
+  border-radius: 999px;
+  color: var(--amber);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+a.source-pill:hover {
+  background-color: var(--amber);
+  color: var(--dark);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   nav {

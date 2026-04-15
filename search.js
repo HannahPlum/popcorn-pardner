@@ -115,6 +115,7 @@ function buildMovieCard(movie) {
         posterPath: movie.poster_path || null,
         overview: movie.overview || ''
       });
+      openStreamingModal(movie);
     }
     setWatchlistBtnState(watchlistBtn, !onWatchlist);
   });
@@ -271,4 +272,112 @@ function showError(message) {
 function hideError() {
   formError.textContent = '';
   formError.hidden = true;
+}
+
+// ===== STREAMING MODAL =====
+
+const streamingModal = document.getElementById('streaming-modal');
+const streamingModalClose = document.getElementById('streaming-modal-close');
+const streamingModalDismiss = document.getElementById('streaming-modal-dismiss');
+const streamingModalBody = document.getElementById('streaming-modal-body');
+const streamingModalTitle = document.getElementById('streaming-modal-title');
+
+streamingModalClose.addEventListener('click', closeStreamingModal);
+streamingModalDismiss.addEventListener('click', closeStreamingModal);
+streamingModal.addEventListener('click', (e) => {
+  if (e.target === streamingModal) closeStreamingModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !streamingModal.hidden) closeStreamingModal();
+});
+
+function openStreamingModal(movie) {
+  streamingModalTitle.textContent = movie.title;
+  streamingModalBody.innerHTML = '<p class="streaming-loading">Wranglin\' up some sources...</p>';
+  streamingModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+
+  fetchStreamingSources(movie.id).then(sources => {
+    renderStreamingSources(sources);
+  }).catch(() => {
+    renderStreamingSources(null);
+  });
+}
+
+function closeStreamingModal() {
+  streamingModal.hidden = true;
+  document.body.style.overflow = '';
+}
+
+async function fetchStreamingSources(tmdbId) {
+  const cacheKey = `watchmode_sources_${tmdbId}`;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    try {
+      const { sources, cachedAt } = JSON.parse(cached);
+      if (Date.now() - cachedAt < 7 * 24 * 60 * 60 * 1000) return sources;
+    } catch {
+      // corrupted cache entry — fall through to fetch
+    }
+  }
+
+  try {
+    const searchRes = await fetch(
+      `https://api.watchmode.com/v1/search/?apiKey=${CONFIG.WATCHMODE_API_KEY}&search_field=tmdb_movie_id&search_value=${tmdbId}`
+    );
+    if (!searchRes.ok) throw new Error(`WatchMode search failed: ${searchRes.status}`);
+    const searchData = await searchRes.json();
+
+    const titleResults = searchData.title_results;
+    if (!titleResults || titleResults.length === 0) {
+      localStorage.setItem(cacheKey, JSON.stringify({ sources: [], cachedAt: Date.now() }));
+      return [];
+    }
+
+    const watchmodeId = titleResults[0].id;
+    const sourcesRes = await fetch(
+      `https://api.watchmode.com/v1/title/${watchmodeId}/sources/?apiKey=${CONFIG.WATCHMODE_API_KEY}`
+    );
+    if (!sourcesRes.ok) throw new Error(`WatchMode sources failed: ${sourcesRes.status}`);
+    const sourcesData = await sourcesRes.json();
+
+    const seen = new Set();
+    const filtered = sourcesData
+      .filter(s => s.type === 'sub' || s.type === 'free')
+      .reduce((acc, s) => {
+        if (!seen.has(s.name)) {
+          seen.add(s.name);
+          acc.push({ name: s.name, web_url: s.web_url || null });
+        }
+        return acc;
+      }, []);
+
+    localStorage.setItem(cacheKey, JSON.stringify({ sources: filtered, cachedAt: Date.now() }));
+    return filtered;
+  } catch (err) {
+    console.error('WatchMode error:', err);
+    return null;
+  }
+}
+
+function renderStreamingSources(sources) {
+  if (sources === null) {
+    streamingModalBody.innerHTML = '<p class="streaming-message">Couldn\'t reach the trail right now, pardner. Try again later.</p>';
+    return;
+  }
+  if (sources.length === 0) {
+    streamingModalBody.innerHTML = '<p class="streaming-message">This one ain\'t ridin\' any streaming services right now, pardner.</p>';
+    return;
+  }
+
+  const pills = sources.map(s =>
+    s.web_url
+      ? `<a href="${s.web_url}" target="_blank" rel="noopener noreferrer" class="source-pill">${s.name}</a>`
+      : `<span class="source-pill">${s.name}</span>`
+  ).join('');
+
+  streamingModalBody.innerHTML = `
+    <p class="streaming-message">You can lasso this film over at:</p>
+    <div class="streaming-sources">${pills}</div>
+  `;
 }
