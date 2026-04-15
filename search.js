@@ -115,7 +115,6 @@ function buildMovieCard(movie) {
         posterPath: movie.poster_path || null,
         overview: movie.overview || ''
       });
-      openStreamingModal(movie);
     }
     setWatchlistBtnState(watchlistBtn, !onWatchlist);
   });
@@ -175,6 +174,8 @@ const modal = document.getElementById('review-modal');
 const modalClose = document.getElementById('modal-close');
 const modalCancel = document.getElementById('modal-cancel');
 const modalSave = document.getElementById('modal-save');
+const modalReviewBtn = document.getElementById('modal-review-btn');
+const modalForm = document.getElementById('review-modal-form');
 const reviewTextarea = document.getElementById('review-text');
 const formError = document.getElementById('form-error');
 const hatButtons = document.querySelectorAll('#hat-rating .hat-btn');
@@ -182,6 +183,11 @@ const hatButtons = document.querySelectorAll('#hat-rating .hat-btn');
 modalClose.addEventListener('click', closeModal);
 modalCancel.addEventListener('click', closeModal);
 modalSave.addEventListener('click', saveReviewFromModal);
+modalReviewBtn.addEventListener('click', () => {
+  modalReviewBtn.hidden = true;
+  modalForm.hidden = false;
+  reviewTextarea.focus();
+});
 
 modal.addEventListener('click', (e) => {
   if (e.target === modal) closeModal();
@@ -226,17 +232,31 @@ function openModal(movie) {
     posterPlaceholder.hidden = false;
   }
 
+  const omdbDiv = document.getElementById('modal-omdb-info');
+  omdbDiv.innerHTML = '';
+  const year = movie.release_date ? movie.release_date.substring(0, 4) : null;
+  fetchOmdbData(movie.id, movie.title, year).then(data => renderOmdbInfo(omdbDiv, data));
+
+  const streamingDiv = document.getElementById('modal-streaming-info');
+  streamingDiv.innerHTML = '';
+  fetchStreamingSources(movie.id)
+    .then(sources => renderStreamingInline(streamingDiv, sources))
+    .catch(() => {});
+
+  modalForm.hidden = true;
+  modalReviewBtn.hidden = false;
   reviewTextarea.value = '';
   highlightHats(0);
   hideError();
   modal.hidden = false;
   document.body.style.overflow = 'hidden';
-  reviewTextarea.focus();
 }
 
 function closeModal() {
   modal.hidden = true;
   document.body.style.overflow = '';
+  modalForm.hidden = true;
+  modalReviewBtn.hidden = false;
   selectedMovie = null;
   selectedRating = 0;
   highlightHats(0);
@@ -274,40 +294,7 @@ function hideError() {
   formError.hidden = true;
 }
 
-// ===== STREAMING MODAL =====
-
-const streamingModal = document.getElementById('streaming-modal');
-const streamingModalClose = document.getElementById('streaming-modal-close');
-const streamingModalDismiss = document.getElementById('streaming-modal-dismiss');
-const streamingModalBody = document.getElementById('streaming-modal-body');
-const streamingModalTitle = document.getElementById('streaming-modal-title');
-
-streamingModalClose.addEventListener('click', closeStreamingModal);
-streamingModalDismiss.addEventListener('click', closeStreamingModal);
-streamingModal.addEventListener('click', (e) => {
-  if (e.target === streamingModal) closeStreamingModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !streamingModal.hidden) closeStreamingModal();
-});
-
-function openStreamingModal(movie) {
-  streamingModalTitle.textContent = movie.title;
-  streamingModalBody.innerHTML = '<p class="streaming-loading">Wranglin\' up some sources...</p>';
-  streamingModal.hidden = false;
-  document.body.style.overflow = 'hidden';
-
-  fetchStreamingSources(movie.id).then(sources => {
-    renderStreamingSources(sources);
-  }).catch(() => {
-    renderStreamingSources(null);
-  });
-}
-
-function closeStreamingModal() {
-  streamingModal.hidden = true;
-  document.body.style.overflow = '';
-}
+// ===== STREAMING INFO =====
 
 async function fetchStreamingSources(tmdbId) {
   const cacheKey = `watchmode_sources_${tmdbId}`;
@@ -360,24 +347,38 @@ async function fetchStreamingSources(tmdbId) {
   }
 }
 
-function renderStreamingSources(sources) {
-  if (sources === null) {
-    streamingModalBody.innerHTML = '<p class="streaming-message">Couldn\'t reach the trail right now, pardner. Try again later.</p>';
-    return;
-  }
-  if (sources.length === 0) {
-    streamingModalBody.innerHTML = '<p class="streaming-message">This one ain\'t ridin\' any streaming services right now, pardner.</p>';
+function renderStreamingInline(container, sources) {
+  container.innerHTML = '';
+  if (!sources || sources.length === 0) {
+    const msg = document.createElement('p');
+    msg.className = 'streaming-inline-label';
+    msg.textContent = 'Not currently streaming anywhere, pardner.';
+    container.appendChild(msg);
     return;
   }
 
-  const pills = sources.map(s =>
-    s.web_url
-      ? `<a href="${s.web_url}" target="_blank" rel="noopener noreferrer" class="source-pill">${s.name}</a>`
-      : `<span class="source-pill">${s.name}</span>`
-  ).join('');
+  const label = document.createElement('p');
+  label.className = 'streaming-inline-label';
+  label.textContent = 'Available to stream:';
 
-  streamingModalBody.innerHTML = `
-    <p class="streaming-message">You can lasso this film over at:</p>
-    <div class="streaming-sources">${pills}</div>
-  `;
+  const pillsDiv = document.createElement('div');
+  pillsDiv.className = 'streaming-sources';
+
+  sources.forEach(s => {
+    let el;
+    if (s.web_url) {
+      el = document.createElement('a');
+      el.href = s.web_url;
+      el.target = '_blank';
+      el.rel = 'noopener noreferrer';
+    } else {
+      el = document.createElement('span');
+    }
+    el.className = 'source-pill';
+    el.textContent = s.name;
+    pillsDiv.appendChild(el);
+  });
+
+  container.appendChild(label);
+  container.appendChild(pillsDiv);
 }

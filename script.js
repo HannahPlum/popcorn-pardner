@@ -66,12 +66,15 @@ function buildReviewCard(review) {
   card.style.cursor = 'pointer';
 
   // Poster
+  const posterWrap = document.createElement('div');
+  posterWrap.className = 'poster-wrap';
+
   const posterDiv = document.createElement('div');
   posterDiv.className = 'movie-poster';
 
   if (review.posterPath) {
     const img = document.createElement('img');
-    img.src = `${TMDB_IMAGE_BASE}${review.posterPath}`;
+    img.src = getPosterUrl(review.posterPath);
     img.alt = `${review.title} poster`;
     img.loading = 'lazy';
     posterDiv.appendChild(img);
@@ -81,6 +84,19 @@ function buildReviewCard(review) {
     placeholder.textContent = 'No Image';
     posterDiv.appendChild(placeholder);
   }
+
+  const editBtn = document.createElement('button');
+  editBtn.type = 'button';
+  editBtn.className = 'poster-edit-btn';
+  editBtn.setAttribute('aria-label', 'Change poster image');
+  editBtn.textContent = '✎';
+  editBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openFanartPicker(review, renderMyReviews);
+  });
+
+  posterWrap.appendChild(posterDiv);
+  posterWrap.appendChild(editBtn);
 
   // Info
   const infoDiv = document.createElement('div');
@@ -116,7 +132,7 @@ function buildReviewCard(review) {
   infoDiv.appendChild(date);
   infoDiv.appendChild(snippet);
 
-  card.appendChild(posterDiv);
+  card.appendChild(posterWrap);
   card.appendChild(infoDiv);
 
   return card;
@@ -376,7 +392,7 @@ function openEditModal(review) {
   const posterPlaceholder = document.getElementById('edit-modal-poster-placeholder');
 
   if (review.posterPath) {
-    posterImg.src = `${TMDB_IMAGE_BASE}${review.posterPath}`;
+    posterImg.src = getPosterUrl(review.posterPath);
     posterImg.alt = `${review.title} poster`;
     posterImg.hidden = false;
     posterPlaceholder.hidden = true;

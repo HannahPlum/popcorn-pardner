@@ -35,7 +35,8 @@ function updateReview(id, changes) {
     reviews[index] = {
       ...reviews[index],
       rating: changes.rating ?? reviews[index].rating,
-      reviewText: changes.reviewText ?? reviews[index].reviewText
+      reviewText: changes.reviewText ?? reviews[index].reviewText,
+      posterPath: changes.posterPath ?? reviews[index].posterPath
     };
     reviews.sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt));
     localStorage.setItem(STORAGE_KEYS.REVIEWS, JSON.stringify(reviews));

@@ -17,6 +17,7 @@
       <a href="index.html" class="logo">Popcorn Pardner</a>
       <nav>
         <a href="search.html" class="nav-active">Search</a>
+        <a href="reviews.html">Reviews</a>
         <a href="watchlist.html">Watchlist</a>
         <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Switch to light mode">☀ Light</button>
       </nav>
@@ -57,10 +58,14 @@
         <div class="modal-movie-info">
           <h2 class="modal-movie-title" id="modal-movie-title"></h2>
           <p class="modal-movie-overview" id="modal-movie-overview"></p>
+          <div class="omdb-info" id="modal-omdb-info"></div>
+          <div id="modal-streaming-info"></div>
         </div>
       </div>
 
-      <div class="modal-form">
+      <button type="button" class="btn btn-primary modal-review-trigger" id="modal-review-btn">Log a Review</button>
+
+      <div class="modal-form" id="review-modal-form" hidden>
         <div class="form-group">
           <p class="form-label">Your Rating</p>
           <div class="hat-rating" id="hat-rating" role="group" aria-label="Rating out of 5 hats">
@@ -92,18 +97,6 @@
     </div>
   </div>
 
-  <!-- ===== STREAMING MODAL ===== -->
-  <div class="modal-overlay" id="streaming-modal" hidden role="dialog" aria-modal="true" aria-labelledby="streaming-modal-title">
-    <div class="modal">
-      <button class="modal-close" id="streaming-modal-close" aria-label="Close">&times;</button>
-      <h2 class="streaming-modal-title" id="streaming-modal-title"></h2>
-      <div id="streaming-modal-body"></div>
-      <div class="modal-actions-right" style="margin-top: 1.5rem;">
-        <button class="btn btn-ghost" id="streaming-modal-dismiss">Got it, pardner</button>
-      </div>
-    </div>
-  </div>
-
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -113,6 +106,7 @@
 
   <script src="config.js"></script>
   <script src="storage.js"></script>
+  <script src="omdb.js"></script>
   <script src="search.js"></script>
 </body>
 

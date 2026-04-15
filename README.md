@@ -23,3 +23,18 @@ First, Claude does not immediately account for accessiblity standards, when I as
 Second, I learned about .env files and what it actually takes to use them. That when your project is completely based in the client-side, using localStorage, env files don't work and there is practically nothing that can be done to hide the API key other than putting it into git.ignore, which still doesn't hide it from the browser. In the future, if this website is ever further developed and connected to a database, the API key and token can certainly be added to an env file and properly hidden.
 
 Third, this one feels like common sense, but I truly didn't think of it until this project: connecting to Vercel and Github from the very start. There was one issue that only occurred on Vercel that I was able to fix in real time, instead of waiting until it was published to notice any issues. This is a practice I would like to keep up with.
+
+NEW ADDITIONS FOR API ASSIGNMENT: April 14-15
+
+Two APIs have been added in these two most recent commits:
+
+1. WatchMode API: provides streaming information for any search result, so the user may see where to access the film.
+
+- The feature that utilizes this API is integrated into a modal popup that shows, as buttons, which services are streaming the film. Upon click, the user is taken to that streaming service.
+
+2. OMDb API: provides rating information from Rotten Tomatoes and IMDB, as well as the age rating (G, PG, PG-13, R, etc..) from the MPAA, and the film runtime.
+
+- The feature that utilizes this API is integrated into the same modal popup, this simply shows the user rating information curated by users of IMDB, and Rotten Tomatoes. It also informs the user of the MPAA age rating, and the film's runtime.
+
+Other notes:
+For the three APIs running in this website, ensure that the API key is added to config.js and that config.js is gitignored. Additionally, ensure that if hosted on Vercel, the API keys are added as Environment Variables.

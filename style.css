@@ -16,6 +16,10 @@
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 :root {
   --amber:   #C8860A;
   --amber-light: #E8A020;
@@ -422,8 +426,13 @@ nav a.nav-active {
   max-width: 540px;
   max-height: 90vh;
   overflow-y: auto;
+  scrollbar-width: none;
   padding: 1.75rem;
   position: relative;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-close {
@@ -450,7 +459,7 @@ nav a.nav-active {
 }
 
 .modal-poster {
-  width: 80px;
+  width: 130px;
   flex-shrink: 0;
   aspect-ratio: 2 / 3;
   border-radius: 6px;
@@ -467,6 +476,7 @@ nav a.nav-active {
 .modal-movie-info {
   flex: 1;
   min-width: 0;
+  max-width: 280px;
 }
 
 .modal-movie-title {
@@ -484,6 +494,13 @@ nav a.nav-active {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.modal .modal-movie-overview {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  margin-bottom: 0.65rem;
 }
 
 /* ===== MODAL FORM ===== */
@@ -747,6 +764,101 @@ nav a.nav-active {
   background-color: #F5EDD0;
 }
 
+/* ===== REVIEW TRIGGER BUTTON ===== */
+.modal-review-trigger {
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+/* ===== OMDB INFO ===== */
+.omdb-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+
+.omdb-pill {
+  font-size: 0.72rem;
+  color: var(--muted);
+  background-color: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+}
+
+/* ===== POSTER EDIT BUTTON ===== */
+.poster-wrap {
+  position: relative;
+}
+
+.poster-edit-btn {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.4rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.65);
+  border: none;
+  color: #fff;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: 1;
+}
+
+.poster-wrap:hover .poster-edit-btn {
+  opacity: 1;
+}
+
+/* ===== FANART PICKER MODAL ===== */
+.fanart-modal {
+  max-width: 680px;
+}
+
+.fanart-subtitle {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.fanart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.fanart-option {
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  aspect-ratio: 2 / 3;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.fanart-option:hover {
+  border-color: var(--amber);
+  transform: scale(1.03);
+}
+
+.fanart-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* ===== STREAMING MODAL ===== */
 .streaming-modal-title {
   font-size: 1.1rem;
@@ -754,6 +866,14 @@ nav a.nav-active {
   color: var(--cream);
   margin-bottom: 1rem;
   padding-right: 2rem;
+}
+
+.streaming-inline-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
 }
 
 .streaming-loading {
@@ -774,7 +894,6 @@ nav a.nav-active {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: center;
 }
 
 .source-pill {

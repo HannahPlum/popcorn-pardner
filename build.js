@@ -5,7 +5,8 @@ const fs = require('fs');
 const config = `const CONFIG = {
   TMDB_API_KEY: ${JSON.stringify(process.env.TMDB_API_KEY || '')},
   TMDB_READ_TOKEN: ${JSON.stringify(process.env.TMDB_READ_TOKEN || '')},
-  WATCHMODE_API_KEY: ${JSON.stringify(process.env.WATCHMODE_API_KEY || '')}
+  WATCHMODE_API_KEY: ${JSON.stringify(process.env.WATCHMODE_API_KEY || '')},
+  OMDB_API_KEY: ${JSON.stringify(process.env.OMDB_API_KEY || '')}
 };
 `;
 
