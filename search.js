@@ -1,9 +1,5 @@
 // POPCORN PARDNER — search.js
 
-if (typeof CONFIG === 'undefined') {
-  console.error('config.js is not loaded. TMDB credentials are missing.');
-}
-
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
 // ===== SEARCH =====
@@ -24,12 +20,7 @@ async function searchMovies(query) {
 
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=1`,
-      {
-        headers: {
-          Authorization: `Bearer ${CONFIG.TMDB_READ_TOKEN}`
-        }
-      }
+      `/api/tmdb?action=search&query=${encodeURIComponent(query)}`
     );
 
     if (!response.ok) throw new Error(`Request failed: ${response.status}`);
@@ -309,9 +300,7 @@ async function fetchStreamingSources(tmdbId) {
   }
 
   try {
-    const searchRes = await fetch(
-      `https://api.watchmode.com/v1/search/?apiKey=${CONFIG.WATCHMODE_API_KEY}&search_field=tmdb_movie_id&search_value=${tmdbId}`
-    );
+    const searchRes = await fetch(`/api/watchmode?action=search&tmdbId=${tmdbId}`);
     if (!searchRes.ok) throw new Error(`WatchMode search failed: ${searchRes.status}`);
     const searchData = await searchRes.json();
 
@@ -322,9 +311,7 @@ async function fetchStreamingSources(tmdbId) {
     }
 
     const watchmodeId = titleResults[0].id;
-    const sourcesRes = await fetch(
-      `https://api.watchmode.com/v1/title/${watchmodeId}/sources/?apiKey=${CONFIG.WATCHMODE_API_KEY}`
-    );
+    const sourcesRes = await fetch(`/api/watchmode?action=sources&watchmodeId=${watchmodeId}`);
     if (!sourcesRes.ok) throw new Error(`WatchMode sources failed: ${sourcesRes.status}`);
     const sourcesData = await sourcesRes.json();
 

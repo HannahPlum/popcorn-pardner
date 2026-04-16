@@ -1,3 +1,4 @@
+Initial ME FOR MIDTERM:
 Popcorn Pardner is a movie reviewing app where users have the ability to search for a movie, add it to their watchlist, write a review for it that will be posted to their home page, assign the movie a rating, and show which movie they're actively watching. All from the comfort of a light or dark mode.
 
 Primary features are:
@@ -14,15 +15,7 @@ Primary features are:
 
 - For the scope of this base level assignment, data is stored in localStorage
 
--There are no known bugs, the only issue I could foresee is that the API key for TMDB can be accessed in the browser. This is not typically an issue, as the key is open source and not hiding any vital secrets, however it is worth noting. There is no way around this for the scope of this base level assignment, as everything is done client-side.
-
-What I Learned:
-Working with Claude throughout this project I learned about a few things:
-First, Claude does not immediately account for accessiblity standards, when I asked Claude to assess the "light mode" version of the website specifically with accessibility in mind, it came back with a few colors that didn't meet standard contrast levels. In addition to this, there were a few features that did not have labelling, so a user using tab would not be able to find them.
-
-Second, I learned about .env files and what it actually takes to use them. That when your project is completely based in the client-side, using localStorage, env files don't work and there is practically nothing that can be done to hide the API key other than putting it into git.ignore, which still doesn't hide it from the browser. In the future, if this website is ever further developed and connected to a database, the API key and token can certainly be added to an env file and properly hidden.
-
-Third, this one feels like common sense, but I truly didn't think of it until this project: connecting to Vercel and Github from the very start. There was one issue that only occurred on Vercel that I was able to fix in real time, instead of waiting until it was published to notice any issues. This is a practice I would like to keep up with.
+- There are no known bugs. API keys are kept server-side via Vercel Edge Functions and are never exposed to the browser.
 
 NEW ADDITIONS FOR API ASSIGNMENT: April 14-15
 
@@ -36,5 +29,45 @@ Two APIs have been added in these two most recent commits:
 
 - The feature that utilizes this API is integrated into the same modal popup, this simply shows the user rating information curated by users of IMDB, and Rotten Tomatoes. It also informs the user of the MPAA age rating, and the film's runtime.
 
-Other notes:
-For the three APIs running in this website, ensure that the API key is added to config.js and that config.js is gitignored. Additionally, ensure that if hosted on Vercel, the API keys are added as Environment Variables.
+---
+
+## Running Locally (Written by Claude Code)
+
+This project uses Vercel Edge Functions to keep API keys server-side. Because of this, you cannot run it by simply opening the HTML files in a browser, you need the Vercel CLI to simulate the server environment locally.
+
+**Prerequisites:** Node.js installed
+
+**Steps:**
+
+1. Clone the repository
+2. Install the Vercel CLI:
+   ```
+   npm install -g vercel
+   ```
+3. Log in to Vercel:
+   ```
+   vercel login
+   ```
+4. Link the project to your Vercel account:
+   ```
+   vercel link
+   ```
+5. Pull environment variables from Vercel (requires the API keys to already be set in your Vercel project dashboard):
+   ```
+   vercel env pull
+   ```
+6. Start the local dev server:
+   ```
+   vercel dev
+   ```
+7. Open the URL shown in the terminal (typically `http://localhost:3000`)
+
+**Required environment variables** (set in Vercel dashboard, pulled via `vercel env pull`):
+
+- `TMDB_READ_TOKEN` — TMDB API Read Access Token
+- `OMDB_API_KEY` — OMDb API key
+- `WATCHMODE_API_KEY` — WatchMode API key
+
+## Deployment
+
+Popcorn Pardner is deployed on Vercel. Pushing to the `main` branch on GitHub triggers an automatic redeploy. No build step is required — Vercel picks up the Edge Functions in the `api/` folder automatically.

@@ -14,10 +14,10 @@ async function fetchOmdbData(tmdbId, title, year) {
   }
 
   try {
-    const params = new URLSearchParams({ apikey: CONFIG.OMDB_API_KEY, t: title, type: 'movie' });
-    if (year) params.set('y', year);
+    const params = new URLSearchParams({ title, type: 'movie' });
+    if (year) params.set('year', year);
 
-    const res = await fetch(`https://www.omdbapi.com/?${params}`);
+    const res = await fetch(`/api/omdb?${params}`);
     if (!res.ok) throw new Error(`OMDb failed: ${res.status}`);
     const raw = await res.json();
 

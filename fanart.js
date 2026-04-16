@@ -62,10 +62,7 @@ async function fetchFanartPosters(tmdbId) {
     }
   }
 
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${tmdbId}/images`,
-    { headers: { Authorization: `Bearer ${CONFIG.TMDB_READ_TOKEN}` } }
-  );
+  const res = await fetch(`/api/tmdb?action=images&id=${tmdbId}`);
   if (!res.ok) throw new Error(`TMDB images failed: ${res.status}`);
   const data = await res.json();
 
