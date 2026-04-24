@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Popcorn Pardner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Oswald:wght@500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <script src="theme.js"></script>
 </head>
@@ -19,7 +23,8 @@
         <a href="search.html">Search</a>
         <a href="reviews.html">Reviews</a>
         <a href="watchlist.html">Watchlist</a>
-        <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Switch to light mode">☀ Light</button>
+        <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Switch to light mode">☀
+          Light</button>
       </nav>
     </div>
   </header>
@@ -27,30 +32,22 @@
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container hero-content">
-      <h1>Your Movie Journal Pardner</h1>
-      <p class="hero-sub">
-        Search for films, log your reviews, rate with cowboy hats, and keep
-        track of everything you want to watch.
-      </p>
-      <div class="hero-actions">
-        <a href="search.html" class="btn btn-primary">Search Movies</a>
-        <a href="#watchlist" class="btn btn-ghost">My Watchlist</a>
+      <img src="assets/images/smallIcon.svg" alt="" class="hero-logo" />
+      <div class="hero-text">
+        <p class="hero-brand">Popcorn Pardner</p>
+        <h1>Your Film Review Sidekick</h1>
+        <p class="hero-sub">
+          Search for films, log your reviews, rate with cowboy hats, <br>and keep
+          track of everything you want to watch.
+        </p>
+        <div class="hero-actions">
+          <a href="search.html" class="btn btn-primary">Search Movies</a>
+          <a href="#watchlist" class="btn btn-ghost">My Watchlist</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== CURRENTLY WATCHING ===== -->
-  <section class="home-section" id="currently-watching">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Currently Watching</h2>
-      </div>
-      <div class="empty-state">
-        <p>You haven't marked anything as currently watching.</p>
-        <a href="search.html" class="btn btn-outline">Find a Movie</a>
-      </div>
-    </div>
-  </section>
 
   <!-- ===== MY REVIEWS ===== -->
   <section class="home-section home-section--alt" id="my-reviews">
@@ -100,17 +97,23 @@
         <div class="form-group">
           <p class="form-label">Your Rating</p>
           <div class="hat-rating" id="log-hat-rating" role="group" aria-label="Rating out of 5 hats">
-            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
-            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="log-review-text">Your Review</label>
-          <textarea class="review-textarea" id="log-review-text" placeholder="What did you think of this film, pardner?" rows="4"></textarea>
+          <textarea class="review-textarea" id="log-review-text" placeholder="What did you think of this film, pardner?"
+            rows="4"></textarea>
         </div>
 
         <p class="form-error" id="log-form-error" hidden></p>
@@ -143,17 +146,23 @@
         <div class="form-group">
           <p class="form-label">Your Rating</p>
           <div class="hat-rating" id="edit-hat-rating" role="group" aria-label="Rating out of 5 hats">
-            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat">🤠</button>
-            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats">🤠</button>
-            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats">🤠</button>
+            <button type="button" class="hat-btn" data-value="1" aria-label="1 hat"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="2" aria-label="2 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="3" aria-label="3 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="4" aria-label="4 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
+            <button type="button" class="hat-btn" data-value="5" aria-label="5 hats"><img
+                src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" /></button>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="edit-review-text">Your Review</label>
-          <textarea class="review-textarea" id="edit-review-text" placeholder="What did you think of this film, pardner?" rows="4"></textarea>
+          <textarea class="review-textarea" id="edit-review-text"
+            placeholder="What did you think of this film, pardner?" rows="4"></textarea>
         </div>
 
         <p class="form-error" id="edit-form-error" hidden></p>
@@ -170,13 +179,27 @@
   </div>
 
   <!-- ===== FANART PICKER MODAL ===== -->
-  <div class="modal-overlay" id="fanart-modal" hidden role="dialog" aria-modal="true" aria-labelledby="fanart-modal-title">
+  <div class="modal-overlay" id="fanart-modal" hidden role="dialog" aria-modal="true"
+    aria-labelledby="fanart-modal-title">
     <div class="modal fanart-modal">
       <button class="modal-close" id="fanart-modal-close" aria-label="Close">&times;</button>
       <h2 class="streaming-modal-title" id="fanart-modal-title"></h2>
       <div id="fanart-modal-body"></div>
     </div>
   </div>
+
+  <!-- ===== CURRENTLY WATCHING ===== -->
+  <section class="home-section home-section--alt" id="currently-watching">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Currently Watching</h2>
+      </div>
+      <div class="empty-state">
+        <p>You haven't marked anything as currently watching.</p>
+        <a href="search.html" class="btn btn-outline">Find a Movie</a>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
@@ -189,6 +212,8 @@
   <script src="fanart.js"></script>
   <script src="omdb.js"></script>
   <script src="script.js"></script>
+
+
 </body>
 
 </html>

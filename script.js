@@ -112,7 +112,7 @@ function buildReviewCard(review) {
   for (let i = 1; i <= 5; i++) {
     const hat = document.createElement('span');
     hat.className = i <= review.rating ? 'hat' : 'hat hat-empty';
-    hat.textContent = '🤠';
+    hat.innerHTML = '<img src="assets/images/cowboyhatWithBackground.svg" alt="" aria-hidden="true" />';
     ratingDiv.appendChild(hat);
   }
 
